@@ -24,6 +24,7 @@ func Execute() {
 	}
 	kubeconfigDefault := filepath.Join(home, ".kube", "config")
 
+	rootCmd.Flags().BoolP("safe-mode", "s", false, "Show what pod would have been deleted, but don't actually delete it")
 	rootCmd.Flags().StringP("kubeconfig", "k", kubeconfigDefault, "Kubeconfig file")
 	rootCmd.Flags().StringP("namespace", "n", "default", "A name to say hello to.")
 	err = rootCmd.Execute()
