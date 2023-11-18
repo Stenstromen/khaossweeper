@@ -10,42 +10,38 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
-func Kubekiller(kubeconfig, namespace string, safemode bool) error {
-	// Use the current context in kubeconfig
+func Kubekiller(kubeconfig, namespace string, safemode bool) (error, string) {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
-		return err
+		return err, ""
 	}
 
-	// Create the clientset
 	clientset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return err
+		return err, ""
 	}
 
-	// List the pods in the specified namespace
 	pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
 	if err != nil {
-		return err
+		return err, ""
 	}
 
 	if len(pods.Items) == 0 {
 		fmt.Println("No pods found in namespace:", namespace)
-		return nil
+		return nil, ""
 	}
 
-	// Select a random pod
 	randPod := pods.Items[rand.Intn(len(pods.Items))]
 
 	if safemode {
-		fmt.Printf("Safemode ON: Pod that would have been deleted: %s\n", randPod.Name)
+		return nil, fmt.Sprint("(Would have) ", randPod.Name)
 	} else {
 		fmt.Printf("Deleting pod: %s\n", randPod.Name)
 		err := clientset.CoreV1().Pods(namespace).Delete(context.TODO(), randPod.Name, metav1.DeleteOptions{})
 		if err != nil {
-			return err
+			return err, randPod.Name
 		}
 	}
 
-	return nil
+	return nil, randPod.Name
 }
