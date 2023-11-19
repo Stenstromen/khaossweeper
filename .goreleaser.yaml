@@ -9,13 +9,18 @@ builds:
       - amd64
     binary: khaossweeper
   - id: "khaossweeper-darwin"
-    env: [CGO_ENABLED=1]
+    env:
+      - CGO_ENABLED=1
     goos:
       - darwin
     goarch:
       - amd64
       - arm64
     binary: khaossweeper
+    hooks:
+      pre: make deps
+    ldflags:
+      - -s -w
 
 archives:
   - name_template: >-
