@@ -24,7 +24,7 @@ Usage:
 
 Flags:
   -h, --help                help for khaossweeper
-  -k, --kubeconfig string   Kubeconfig file (default "/Users/filip/.kube/config")
+  -k, --kubeconfig string   Kubeconfig file (default "$HOME/.kube/config")
   -n, --namespace string    A name to say hello to. (default "default")
   -s, --safe-mode           Show what pod would have been deleted, but don't actually delete it
 ```
