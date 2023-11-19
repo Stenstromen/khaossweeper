@@ -1,6 +1,6 @@
 project_name: khaossweeper
 builds:
-    goos:
+  - goos:
       - linux
       - darwin
     goarch:
