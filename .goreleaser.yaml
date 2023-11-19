@@ -10,14 +10,11 @@ builds:
     goarch:
       - amd64
       - arm64
-    #goarm: "7"
     binary: khaossweeper
     flags: 
       - -tags=netgo
     ldflags:
       - -s -w
-    hooks:
-      pre: make deps
 archives:
   - name_template: >-
       {{ .ProjectName }}_
