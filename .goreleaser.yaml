@@ -1,13 +1,15 @@
 project_name: khaossweeper
 
 builds:
-  - env: [CGO_ENABLED=1]
+  - id: "khaossweeper-linux"
+    env: [CGO_ENABLED=1]
     goos:
       - linux
     goarch:
       - amd64
     binary: khaossweeper
-  - env: [CGO_ENABLED=1]
+  - id: "khaossweeper-darwin"
+    env: [CGO_ENABLED=1]
     goos:
       - darwin
     goarch:
