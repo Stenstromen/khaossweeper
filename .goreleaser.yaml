@@ -1,19 +1,27 @@
 project_name: khaossweeper
+
 builds:
   - env: [CGO_ENABLED=1]
     goos:
       - linux
+    goarch:
+      - amd64
+    binary: khaossweeper
+  - env: [CGO_ENABLED=1]
+    goos:
       - darwin
     goarch:
       - amd64
       - arm64
     binary: khaossweeper
+
 archives:
   - name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else }}{{ .Arch }}{{ end }}
+
 brews:
   - name: khaossweeper
     repository:
