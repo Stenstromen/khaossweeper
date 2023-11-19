@@ -11,9 +11,13 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "khaossweeper",
-	Long:  "MineSweeper clone written in Go using Fyne",
-	Short: "MineSweeper clone written in Go using Fyne",
-	RunE:  minesweeper.Minesweeper,
+	Short: "KhaosSweeper: A thrilling Kubernetes minesweeper game.",
+	Long: `KhaosSweeper brings a unique twist to the classic minesweeper game. 
+Inspired by Chaos Monkey and Kube DOOM, KhaosSweeper integrates with your Kubernetes cluster to randomly kill pods when you hit a mine. 
+This game is designed not just for fun, but also as a novel way to test the resilience and fault tolerance of your Kubernetes setup. 
+Experience the thrill of navigating through a minefield where each wrong move could bring down a pod! 
+KhaosSweeper is built using Go, FyneV2, and k8s.io/client-go.`,
+	RunE: minesweeper.Minesweeper,
 }
 
 func Execute() {

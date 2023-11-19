@@ -1,6 +1,7 @@
 package minesweeper
 
 import (
+	"embed"
 	"fmt"
 	"math/rand"
 
@@ -13,6 +14,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stenstromen/khaossweeper/kubekiller"
 )
+
+//go:embed graphics/*
+var graphicsFS embed.FS
 
 type ImageButton struct {
 	widget.Icon
@@ -62,20 +66,22 @@ func Minesweeper(cmd *cobra.Command, args []string) error {
 		return err
 	}
 
-	imgResource, err := fyne.LoadResourceFromPath("graphics/square.png")
+	imgBytes, err := graphicsFS.ReadFile("graphics/square.png") // No "graphics/" prefix
 	if err != nil {
-		return fmt.Errorf("failed to load image: %v", err)
+		return fmt.Errorf("failed to load embedded image 'square.png': %w", err)
+	}
+	openedImgBytes, err := graphicsFS.ReadFile("graphics/openedsquare.png") // No "graphics/" prefix
+	if err != nil {
+		return fmt.Errorf("failed to load embedded image 'openedsquare.png': %w", err)
+	}
+	mineImgBytes, err := graphicsFS.ReadFile("graphics/mine.png") // No "graphics/" prefix
+	if err != nil {
+		return fmt.Errorf("failed to load embedded image 'mine.png': %w", err)
 	}
 
-	openedImgResource, err := fyne.LoadResourceFromPath("graphics/openedsquare.png")
-	if err != nil {
-		return fmt.Errorf("failed to load opened square image: %v", err)
-	}
-
-	mineImgResource, err := fyne.LoadResourceFromPath("graphics/mine.png")
-	if err != nil {
-		return fmt.Errorf("failed to load mine image: %v", err)
-	}
+	imgResource := fyne.NewStaticResource("square.png", imgBytes)
+	openedImgResource := fyne.NewStaticResource("openedsquare.png", openedImgBytes)
+	mineImgResource := fyne.NewStaticResource("mine.png", mineImgBytes)
 
 	var resetGame func()
 
@@ -161,9 +167,10 @@ func Minesweeper(cmd *cobra.Command, args []string) error {
 					neighborID := y*gridSize + x
 					if x >= 0 && x < gridSize && y >= 0 && y < gridSize && neighborID >= 0 && neighborID < len(buttons) {
 						if bombs[neighborID] {
-							_, podName := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
+							podName, _ := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
 							podLabel.SetText(podName)
 							buttons[neighborID] = nil
+							updateGrid()
 							return
 						} else {
 							buttons[neighborID].(*ImageButton).Disable()
@@ -179,9 +186,10 @@ func Minesweeper(cmd *cobra.Command, args []string) error {
 		buttonID := i
 		button := NewImageButton(imgResource, func() {
 			if bombs[buttonID] {
-				_, podName := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
+				podName, _ := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
 				podLabel.SetText(podName)
 				buttons[buttonID] = nil
+				updateGrid()
 				return
 			} else {
 				buttons[buttonID].(*ImageButton).SetResource(openedImgResource)
@@ -202,9 +210,10 @@ func Minesweeper(cmd *cobra.Command, args []string) error {
 			button := NewImageButton(imgResource, func(buttonID int) func() {
 				return func() {
 					if bombs[buttonID] {
-						_, podName := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
+						podName, _ := kubekiller.Kubekiller(kubeconfig, namespace, safemode)
 						podLabel.SetText(podName)
 						buttons[buttonID] = nil
+						updateGrid()
 						return
 					} else {
 						buttons[buttonID].(*ImageButton).SetResource(openedImgResource)

@@ -1,0 +1,25 @@
+project_name: khaossweeper
+builds:
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    binary: khaossweeper
+archives:
+  - name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else }}{{ .Arch }}{{ end }}
+brews:
+  - name: khaossweeper
+    tap:
+      owner: stenstromen
+      name: homebrew-tap
+    commit_author:
+      name: stenstromen
+    folder: Formula
+    homepage: https://github.com/Stenstromen/khaossweeper
+    description: KhaosSweeper, A thrilling Kubernetes minesweeper game.
