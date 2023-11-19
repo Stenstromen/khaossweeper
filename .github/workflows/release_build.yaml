@@ -8,10 +8,6 @@ jobs:
   build:
     name: GoReleaser build
     runs-on: self-hosted
-    strategy:
-      matrix:
-        goos: [linux, darwin]
-        goarch: [amd64, arm64]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,15 +18,6 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: stable
-
-      - name: Set up cross-compilation for ARM64
-        if: matrix.goarch == 'arm64'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
-        env:
-          CC: aarch64-linux-gnu-gcc
-          CXX: aarch64-linux-gnu-g++
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4

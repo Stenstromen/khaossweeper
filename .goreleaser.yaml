@@ -1,4 +1,5 @@
 project_name: khaossweeper
+
 builds:
   - id: "khaossweeper-amd64"
     env: 
@@ -13,13 +14,13 @@ builds:
       - -tags=netgo
     ldflags:
       - -s -w
-  - id: "khaossweeper-arm64"
+
+  - id: "khaossweeper-darwin-arm64"
     env: 
       - CGO_ENABLED=1
       - CC=aarch64-linux-gnu-gcc
       - CXX=aarch64-linux-gnu-g++
     goos:
-      - linux
       - darwin
     goarch:
       - arm64
@@ -28,12 +29,14 @@ builds:
       - -tags=netgo
     ldflags:
       - -s -w
+
 archives:
   - name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
       {{- if eq .Arch "amd64" }}x86_64
       {{- else }}{{ .Arch }}{{ end }}
+
 brews:
   - name: khaossweeper
     repository:
