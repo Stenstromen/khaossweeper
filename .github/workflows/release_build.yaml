@@ -19,6 +19,13 @@ jobs:
         with:
           go-version: stable
 
+      - name: Set up cross-compilation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+        env:
+          CC: aarch64-linux-gnu-gcc
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
         with:
@@ -28,3 +35,4 @@ jobs:
           workdir: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
+          CC: aarch64-linux-gnu-gcc

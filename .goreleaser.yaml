@@ -8,6 +8,21 @@ builds:
       - amd64
       - arm64
     binary: khaossweeper
+    goarm: 7
+    flags: 
+      - -tags=netgo
+    ldflags:
+      - -s -w
+    hooks:
+      pre: make deps
+    goos:
+      - linux
+      - darwin
+    goarch:
+      - amd64
+    env:
+      - CC=aarch64-linux-gnu-gcc
+      - CXX=aarch64-linux-gnu-g++
 archives:
   - name_template: >-
       {{ .ProjectName }}_
@@ -16,7 +31,7 @@ archives:
       {{- else }}{{ .Arch }}{{ end }}
 brews:
   - name: khaossweeper
-    tap:
+    repository:
       owner: stenstromen
       name: homebrew-tap
     commit_author:
