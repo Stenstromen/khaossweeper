@@ -15,10 +15,8 @@ builds:
       - darwin
     goarch:
       - amd64
-      - arm64
+#      - arm64
     binary: khaossweeper
-    hooks:
-      pre: make deps
     ldflags:
       - -s -w
 
