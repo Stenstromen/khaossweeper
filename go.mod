@@ -68,7 +68,6 @@ require (
 )
 
 require (
-	fyne.io/fyne v1.4.3
 	fyne.io/fyne/v2 v2.4.1
 	github.com/gopherjs/gopherjs v1.17.2 // indirect
 	github.com/spf13/cobra v1.8.0
