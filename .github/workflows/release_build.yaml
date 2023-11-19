@@ -19,7 +19,8 @@ jobs:
         with:
           go-version: stable
 
-      - name: Set up cross-compilation
+      - name: Set up cross-compilation for ARM64
+        if: endsWith(matrix.goarch, 'arm64')
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-aarch64-linux-gnu
@@ -35,4 +36,3 @@ jobs:
           workdir: ./
         env:
           GITHUB_TOKEN: ${{ secrets.GO_RELEASER_GITHUB_TOKEN }}
-          CC: aarch64-linux-gnu-gcc
