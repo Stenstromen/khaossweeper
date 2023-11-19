@@ -1,6 +1,7 @@
 project_name: khaossweeper
 builds:
-  - env: 
+  - id: "khaossweeper-amd64"
+    env: 
       - CGO_ENABLED=1
     goos:
       - linux
@@ -12,7 +13,8 @@ builds:
       - -tags=netgo
     ldflags:
       - -s -w
-  - env: 
+  - id: "khaossweeper-arm64"
+    env: 
       - CGO_ENABLED=1
       - CC=aarch64-linux-gnu-gcc
       - CXX=aarch64-linux-gnu-g++
