@@ -7,11 +7,25 @@ builds:
     goarch: [amd64]
     binary: khaossweeper
     ldflags: "-s -w"
-    
+
+  - id: "khaossweeper-linux-arm64"
+    env: [CGO_ENABLED=1, CC=aarch64-linux-gnu-gcc, CXX=aarch64-linux-gnu-g++]
+    goos: [linux]
+    goarch: [arm64]
+    binary: khaossweeper
+    ldflags: "-s -w"
+
   - id: "khaossweeper-darwin-amd64"
     env: [CGO_ENABLED=1]
     goos: [darwin]
     goarch: [amd64]
+    binary: khaossweeper
+    ldflags: "-s -w"
+
+  - id: "khaossweeper-darwin-arm64"
+    env: [CGO_ENABLED=1]
+    goos: [darwin]
+    goarch: [arm64]
     binary: khaossweeper
     ldflags: "-s -w"
 

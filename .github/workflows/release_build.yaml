@@ -6,18 +6,36 @@ on:
 
 jobs:
   build:
-    name: GoReleaser build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux, darwin]
+        goarch: [amd64, arm64]
+        include:
+          - goos: linux
+            goarch: arm64
+            cc: aarch64-linux-gnu-gcc
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - run: git fetch --force --tags
+
+      - name: Install Cross-Compilation Tools for Linux ARM64
+        if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
       - uses: actions/setup-go@v4
         with:
           go-version: stable
+
+      - name: Set up CC environment variable for Linux ARM64
+        if: matrix.goos == 'linux' && matrix.goarch == 'arm64'
+        run: echo "CC=${{ matrix.cc }}" >> $GITHUB_ENV
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v4
