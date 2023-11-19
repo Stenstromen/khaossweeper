@@ -8,13 +8,19 @@ builds:
     binary: khaossweeper
     ldflags: "-s -w"
 
-  - id: "khaossweeper-darwin"
+  - id: "khaossweeper-darwin-amd64"
     env: [CGO_ENABLED=1]
     goos: [darwin]
-    goarch: [amd64, arm64]
+    goarch: [amd64]
     binary: khaossweeper
     ldflags: "-s -w"
 
+  - id: "khaossweeper-darwin-arm64"
+    env: [CGO_ENABLED=1]
+    goos: [darwin]
+    goarch: [arm64]
+    binary: khaossweeper
+    ldflags: "-s -w"
 
 archives:
   - name_template: >-
