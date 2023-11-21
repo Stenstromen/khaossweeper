@@ -21,8 +21,9 @@ brew install stenstromen/tap/khaossweeper
 
 ## Build and Run Binary
 
+See [Build](build.md) docs on how to build binary
+
 ```bash
-go build -o khaossweeper
 ./khaossweeper
 ```
 
