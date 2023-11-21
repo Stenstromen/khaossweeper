@@ -10,6 +10,15 @@ Built using Go, FyneV2 and k8s.io/client-go. KhaosSweeper is a simple minesweepe
 
 *Disclaimer: This minesweeper clone is rigged. It does not follow the rules of the original game. There is no way to win. You will lose. You will lose pods. You will lose pods randomly. You will lose pods randomly and often. You will lose pods randomly and often and there is nothing you can do about it. You have been warned.*
 
+## Installation via Homebrew (MacOS/Linux - x86_64/arm64)
+```
+brew install stenstromen/tap/khaossweeper
+```
+
+## Download and Run Binary
+* For **MacOS** and **Linux**: Checkout and download the latest binary from [Releases page](https://github.com/Stenstromen/khaossweeper/releases/latest/)
+* For **Windows**: Build the binary yourself.
+
 ## Build and Run Binary
 
 ```bash
